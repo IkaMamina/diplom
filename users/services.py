@@ -38,7 +38,7 @@ def send(phone: int, message: str) -> dict:
     """
     api = SmsAero(SMSAERO_EMAIL, SMSAERO_API_KEY)
 
-    return api.send(phone, message)
+    return api.send_sms(phone, message)
 
 
 # if __name__ == '__main__':

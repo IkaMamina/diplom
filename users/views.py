@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from users.models import User
 from users.serializers import UserSerializer, ProfileSerializer, RegisterSerializer
-from users.services import create_invite_code, generate_code
+from users.services import create_invite_code, generate_code, send
 
 
 class RegisterView(views.APIView):
@@ -15,7 +15,9 @@ class RegisterView(views.APIView):
         if serializer.is_valid():
             user = serializer.save()
             user.invite_code = create_invite_code()
+            send(user.phone, user.invite_code)
             return Response(user.invite_code, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=400)
 
 
@@ -24,6 +26,7 @@ class UserCreateAPIView(generics.CreateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -49,6 +52,7 @@ class UserUpdateAPIView(generics.UpdateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
     def get_object(self, *args, **kwargs):
         return self.request.user
@@ -59,6 +63,7 @@ class UserProfileAPIView(generics.RetrieveAPIView):
 
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = [AllowAny]
 
 
 class UserDestroyAPIView(generics.DestroyAPIView):
@@ -66,6 +71,7 @@ class UserDestroyAPIView(generics.DestroyAPIView):
 
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = [AllowAny]
 
 
 

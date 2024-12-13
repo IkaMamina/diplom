@@ -14,6 +14,7 @@ psycopg2-binary = "^2.9.10"
 black = "^24.10.0"
 djangorestframework-simplejwt = "^5.3.1"
 smsaero-api = "^3.0.0"
+drf-yasg = "^1.21.8"
 
 
 [build-system]
