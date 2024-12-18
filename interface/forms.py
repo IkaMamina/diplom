@@ -38,4 +38,7 @@ class UserUpdateForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ("phone", "ref_code",)
+        fields = (
+            "phone",
+            "ref_code",
+        )

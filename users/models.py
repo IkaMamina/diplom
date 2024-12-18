@@ -13,6 +13,7 @@ class CustomUserManager(BaseUserManager):
     Custom user model manager where email is the unique identifiers
     for authentication instead of usernames.
     """
+
     def create_user(self, phone, password, **extra_fields):
         """
         Create and save a user with the given email and password.
@@ -45,10 +46,13 @@ class User(AbstractUser):
         unique=True,
         max_length=11,
         verbose_name="Телефон",
-        help_text="Введите номер телефона", validators=[phone_validator]
+        help_text="Введите номер телефона",
+        validators=[phone_validator],
     )
     invite_code = models.CharField(max_length=6, verbose_name="Инвайт код", **NULLABLE)
-    ref_code = models.CharField(max_length=6, verbose_name="Введенный инвайт код", **NULLABLE)
+    ref_code = models.CharField(
+        max_length=6, verbose_name="Введенный инвайт код", **NULLABLE
+    )
 
     objects = CustomUserManager()
     USERNAME_FIELD = "phone"
@@ -60,4 +64,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.phone
-

@@ -1,3 +1,4 @@
+from django.views.generic import TemplateView
 from rest_framework import generics, status, views
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -6,6 +7,18 @@ from users.models import User
 from users.serializers import UserSerializer, ProfileSerializer, RegisterSerializer
 from users.services import create_invite_code, generate_code, send
 
+
+from django.shortcuts import render
+class LoginView(TemplateView):
+    template_name = 'login.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        # Здесь мы можем получить доступ к http://user.pk
+        user_pk = kwargs.get('user_pk')
+        context = {
+        'user_pk': user_pk # Передаем user_pk в шаблон
+        }
+        return super().dispatch(request, *args, **context)
 
 class RegisterView(views.APIView):
     permission_classes = [AllowAny]
@@ -16,10 +29,9 @@ class RegisterView(views.APIView):
             user = serializer.save()
             user.invite_code = create_invite_code()
             send(user.phone, user.invite_code)
-            return Response(user.invite_code, status=status.HTTP_201_CREATED)
+            return Response({"invite_code": user.invite_code, "user":user}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=400)
-
 
 class UserCreateAPIView(generics.CreateAPIView):
     """Авторизация пользователя"""
@@ -72,8 +84,3 @@ class UserDestroyAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [AllowAny]
-
-
-
-
-

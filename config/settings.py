@@ -21,11 +21,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_yasg",
-    
     "users",
     "interface",
 ]
@@ -89,8 +87,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKEND": ("django_filters.rest_framework.DjangoFilterBackend",),
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated",],
-    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework.authentication.SessionAuthentication",]
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
 }
 
 LANGUAGE_CODE = "en-us"
@@ -117,5 +119,5 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
-SMSAERO_EMAIL = os.getenv('SMSAERO_EMAIL')
-SMSAERO_API_KEY = os.getenv('SMSAERO_API_KEY')
+SMSAERO_EMAIL = os.getenv("SMSAERO_EMAIL")
+SMSAERO_API_KEY = os.getenv("SMSAERO_API_KEY")

@@ -13,9 +13,12 @@ def generate_code():
 
     kod = string.digits
     while True:
-        random_code = ''.join(secrets.choice(kod) for i in range(6))
-        if (any(c.islower() for c in random_code) and any(c.isupper() for c in random_code) and sum(
-                c.isdigit() for c in random_code) >= 3):
+        random_code = "".join(secrets.choice(kod) for i in range(6))
+        if (
+            any(c.islower() for c in random_code)
+            and any(c.isupper() for c in random_code)
+            and sum(c.isdigit() for c in random_code) >= 3
+        ):
             break
     print(random_code)
     return random_code
