@@ -1,3 +1,5 @@
+from random import random
+
 from django.views.generic import TemplateView
 from rest_framework import generics, status, views
 from rest_framework.permissions import AllowAny
@@ -5,10 +7,9 @@ from rest_framework.response import Response
 
 from users.models import User
 from users.serializers import UserSerializer, ProfileSerializer, RegisterSerializer
-from users.services import create_invite_code, generate_code, send
+from users.services import create_invite_code, send
 
 
-from django.shortcuts import render
 class LoginView(TemplateView):
     template_name = 'login.html'
 
@@ -19,6 +20,7 @@ class LoginView(TemplateView):
         'user_pk': user_pk # Передаем user_pk в шаблон
         }
         return super().dispatch(request, *args, **context)
+
 
 class RegisterView(views.APIView):
     permission_classes = [AllowAny]
@@ -32,6 +34,7 @@ class RegisterView(views.APIView):
             return Response({"invite_code": user.invite_code, "user":user}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=400)
+
 
 class UserCreateAPIView(generics.CreateAPIView):
     """Авторизация пользователя"""
@@ -52,8 +55,8 @@ class UserCreateAPIView(generics.CreateAPIView):
             user = User.objects.get(phone=request.data.get("phone"))
             return_data["invite_code"] = user.invite_code
         finally:
-            password = generate_code()
-            user.set_password(password)
+            password = random.randint(1000, 9999)
+            user.set_password(str(password))
             user.save()
 
         return Response(return_data, status=status.HTTP_201_CREATED)

@@ -13,7 +13,7 @@ class UserRegisterForm(ModelForm):
         fields = ("phone",)
 
 
-class SmsCode(Form):
+class SmsCodeForm(Form):
     """Форма кода"""
 
     code = CharField(label="Код из СМС")
@@ -41,4 +41,5 @@ class UserUpdateForm(UserChangeForm):
         fields = (
             "phone",
             "ref_code",
+            "code",
         )

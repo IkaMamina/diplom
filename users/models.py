@@ -49,9 +49,12 @@ class User(AbstractUser):
         help_text="Введите номер телефона",
         validators=[phone_validator],
     )
+    code = models.CharField(
+        max_length=4, verbose_name="Одноразовый СМС-код", **NULLABLE
+    )
     invite_code = models.CharField(max_length=6, verbose_name="Инвайт код", **NULLABLE)
     ref_code = models.CharField(
-        max_length=6, verbose_name="Введенный инвайт код", **NULLABLE
+        max_length=6, verbose_name="Введенный ref код", **NULLABLE
     )
 
     objects = CustomUserManager()
